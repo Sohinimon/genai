@@ -1,0 +1,123 @@
+OPENAI_API_KEY="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"
+
+https://www.youtube.com/watch?v=CbpsDMwFG2g&list=PLZoTAELRMXVMTWGW9iS45ZTcMsntos6VO
+
+https://www.youtube.com/watch?v=zRdzLfoTwvQ
+
+https://platform.openai.com/docs/overview
+
+https://rapidapi.com/MeteosourceWeather/api/ai-weather-by-meteosource/pricing
+
+import sys
+sys.path
+!pip install --trusted-host pypi.org --trusted-host files.pythonhosted.org --trusted-host pypi.python.org  openai==0.28
+
+import os
+import openai
+from dotenv import load_dotenv
+import pandas as pd
+import numpy as np
+
+
+import openai
+openai.api_key = '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'
+
+response = openai.ChatCompletion.create(
+    model="gpt-3.5-turbo",  # Replace with the appropriate chat model
+    messages=[
+        {"role": "system", "content": "You are a helpful assistant."},
+           {"role": "user", "content": "What is the capital of India?"}
+       ]
+   )
+
+print(response.choices[0].message['content'])
+
+
+#openai.api_key=os.getenv(OPENAI_API_KEY)
+
+import openai
+openai.api_key = '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'
+
+import openai
+
+def get_openai_chat_response(prompt):
+    try:
+        response = openai.ChatCompletion.create(
+            model="gpt-3.5-turbo",  # Specify the chat model
+            messages=[
+                {"role": "system", "content": "You are a helpful assistant."},
+                {"role": "user", "content": prompt}
+            ]
+        )
+        return response.choices[0].message['content']
+    except Exception as e:
+        return f"An error occurred: {e}"
+
+# Example usage
+prompt = "What is the capital of India?"
+print(get_openai_chat_response(prompt))
+
+def get_openai_chat_response(prompt):
+    try:
+        response = openai.ChatCompletion.create(
+            model="gpt-3.5-turbo",  # Specify the chat model
+            messages=[
+                {"role": "system", "content": "You are a helpful assistant."},
+                {"role": "user", "content": prompt}
+            ]
+        )
+        return response.choices[0].message['content']
+    except Exception as e:
+        return f"An error occurred: {e}"
+
+# Example usage
+prompt = """Translate to bengali 
+"How are you"
+"""
+print(get_openai_chat_response(prompt))
+
+
+import openai
+#client = OpenAI()
+
+response = openai.ChatCompletion.create(
+  model="gpt-3.5-turbo",
+  messages=[
+    {"role": "system", "content": "You are a helpful assistant."},
+    {"role": "user", "content": "Who won the world series in 2020?"},
+    {"role": "assistant", "content": "The Los Angeles Dodgers won the World Series in 2020."},
+    {"role": "user", "content": "Where was it played?"}
+  ]
+)
+
+print(response.choices[0].message['content'])
+
+
+import requests
+import ssl
+
+def get_current_weather(location):
+    """Get the weather of the provided location."""
+    url = "https://ai-weather-by-meteosource.p.rapidapi.com/find_places"
+
+    querystring = {"text": location}
+
+    headers = {
+        "X-RapidAPI-Key": "4f8273239dmsha46910120780377p174740jsnef4bbbc3c92d",
+        "X-RapidAPI-Host": "ai-weather-by-meteosource.p.rapidapi.com"
+    }
+
+    # Create an unverified SSL context
+    ssl_context = ssl.create_default_context()
+    ssl_context.check_hostname = False
+    ssl_context.verify_mode = ssl.CERT_NONE
+
+    # Make the request with the unverified context
+    response = requests.get(url, headers=headers, params=querystring, verify=False)
+
+    print(response.json())
+    return response.json()
+
+# Example usage
+response = get_current_weather('Bangalore')
+print(response)
